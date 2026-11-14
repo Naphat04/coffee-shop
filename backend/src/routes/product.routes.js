@@ -6,13 +6,18 @@ import {
   updateProduct,
   deleteProduct,
 } from '../controllers/product.controller.js';
+import { requireAuth, requireRole } from '../middlewares/auth.js';
 
 const router = Router();
 
+// ใครก็ดูเมนูได้
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.post('/', createProduct);
-router.patch('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
+
+// เฉพาะแอดมิน
+const adminOnly = [requireAuth, requireRole('ADMIN')];
+router.post('/', adminOnly, createProduct);
+router.patch('/:id', adminOnly, updateProduct);
+router.delete('/:id', adminOnly, deleteProduct);
 
 export default router;
