@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import productRoutes from './routes/product.routes.js';
+import authRoutes from './routes/auth.routes.js';   // ← ไว้ข้างบนกับ import อื่น
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.get('/api/v1/health', (req, res) => {
 });
 
 app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/auth', authRoutes);
+
 
 // 404 สำหรับ path ที่ไม่มี
 app.use((req, res) => {
@@ -24,6 +27,8 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: { message: 'Internal server error' } });
 });
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
