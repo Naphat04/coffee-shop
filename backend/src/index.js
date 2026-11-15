@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import productRoutes from './routes/product.routes.js';
 import authRoutes from './routes/auth.routes.js';   // ← ไว้ข้างบนกับ import อื่น
+import { HttpError } from './utils/http-error.js';
+
 
 const app = express();
 
@@ -33,4 +35,12 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof HttpError) {
+    return res.status(err.status).json({ error: { message: err.message } });
+  }
+  console.error(err);
+  res.status(500).json({ error: { message: 'Internal server error' } });
 });
