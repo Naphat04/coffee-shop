@@ -1,4 +1,4 @@
 ## API Endpoints
-- POST /api/v1/orders
-- GET /api/v1/orders/:id
-- GET /api/v1/options
+- GET /api/v1/products
+- POST /api/v1/auth/register
+- POST /api/v1/auth/login
